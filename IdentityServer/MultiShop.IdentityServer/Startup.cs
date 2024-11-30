@@ -29,7 +29,7 @@ namespace MultiShop.IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            services.AddLocalApiAuthentication();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -50,6 +50,7 @@ namespace MultiShop.IdentityServer
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
+                .AddInMemoryApiResources(Config.ApiResources)
                 .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure
@@ -66,6 +67,8 @@ namespace MultiShop.IdentityServer
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
                 });
+
+
         }
 
         public void Configure(IApplicationBuilder app)
@@ -77,7 +80,7 @@ namespace MultiShop.IdentityServer
             }
 
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
