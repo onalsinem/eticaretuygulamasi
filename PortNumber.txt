@@ -2,3 +2,4 @@ Catalog  --> 7025
 Discount --> 7026
 Order    --> 7027
 Identity --> 5001
+cargo    --> 7028
